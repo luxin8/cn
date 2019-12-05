@@ -16,7 +16,7 @@
 ## 相关参考
 [注册京东云](https://accounts.jdcloud.com/p/regPage?source=jdcloud%26ReturnUrl=%2f%2fuc.jdcloud.com%2fpassport%2fcomplete%3freturnUrl%3d//www.jdcloud.com/)
 
-[实名认证](../../../User-Service/Real-Name-Verification/Real-Name-Verification.md)
+[实名认证](https://docs.jdcloud.com/cn/real-name-verification/introduction)
 
 [云主机计费规则](../Pricing/Billing-Rules.md)
 

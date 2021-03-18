@@ -24,7 +24,7 @@
     <tr>
         <td> 系统异常实例不可用</td>
         <td> SystemFailure.Fault</td>
-        <td> 物理机故障，且实例规格不支持热迁移（带本地数据盘的规格，如存储优化型，GPU型），无法通过热迁快速恢复 </td>
+        <td> 物理机故障，且实例规格不支持热迁移（带本地数据盘的规格，如存储优化型，GPU型），导致实例处于不可用状态 </td>
         <td> 联系客服，确认本地数据可以清除后又后台操作迁移</td>
     </tr>
     <tr>
@@ -62,14 +62,45 @@
         <td> 状态变更</td>
         <td> 实例状态变更</td>
         <td> StateChange </td>
-        <td> 用户或系统导致的实例任何状态变更（目前仅支持创建和删除两类操作导致的状态变更） </td>
+        <td> 用户操作或系统行为导致的实例任何状态变更（目前仅支持创建和删除两类操作导致的状态变更） </td>
         <td> 关注状态变更是否符合预期 </td>
     </tr>        
 </table> 
  
- 
- 
- 
+## 事件格式
+云主机事件是基于 [云事件](https://www.jdcloud.com/cn/products/cloud-events) 产品提供的服务。事件格式规范示例如下，其中，"detail"为事件详情，不同事件的信息项不尽相同，具体内容可参考下方的 事件通知详情。
+
+*（以实例创建成功从pending状态变为running状态为例）*
+```
+{
+"detail":{
+	"eventAction":"StateChange",
+	"eventTime":"2021-03-18 11:40:38",
+	"instanceCurrentState":"running",
+	"instanceId":"i-eiu****bqp",
+	"instanceLastState":"pending"
+},
+"detailType":"StatusNotification",
+"id":"1xo6n4os********6g2d5721f2",
+"pin":"iaasdevops",
+"region":"cn-east-1",
+"resources":[
+	"i-eiuciglbqp"
+],
+"source":"jcloud.vm",
+"time":"2021-03-18T11:49:46+0800",
+"version":""	
+}
+```
+## 事件通知详情
+
+云事件服务提供事件订阅功能，可指定事件和资源订阅并设置事件目的地，在短信和邮件等通知途径中，事件详情会以以下形式发送。
+
+### 实例创建失败
+* 事件代码：SystemFailure.Delete
+* 事件通知说明：
+
+
 <div id="user-content-1"></div>
 
 ## 监控插件安装说明
@@ -88,18 +119,7 @@
   `
   wmic process where caption="MonitorPlugin.exe" get caption,commandline /value
   `
-  
-## 监控数据说明
-* 监控数据采集周期为10s，最小展示间隔为1min；
-* 不同指标的默认聚合方式不同，可在监控图中查看各指标的聚合方式；
-* 统计周期默认支持1小时、6小时、12小时、1天、3天、7天及14天，此外还支持您设置统计周期，最短为1分钟最长为一个月；
-* 不同统计周期监控值会做对应聚合，例如6小时统计周期情况下，监控图上间隔5分钟显示一个监控值，该监控值为对应统计周期内采集值的聚合，当前仅支持以默认聚合方式查询；
-* 监控数据最长保存180天，在控制台可直接用户可以观察30天的监控数据，若需要获取30天-180天的监控数据，请提交工单。
-
-## 其他
-* bps表示每秒传输bit数，ps为per second，意同/s；
-* Bps表示每秒传输Byte数，ps为per second，意同/s；
-* Kbps=1000bps，KBps=1000Bps。
+ 
   
  
    

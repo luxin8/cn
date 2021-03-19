@@ -17,7 +17,7 @@
     <tr>
         <td rowspan="3">异常事件</td>
         <td> 实例创建失败</td>
-        <td>SystemFailure.Delete</td>
+        <td> SystemFailure.Delete</td>
         <td> 实例创建请求成功后，由于系统原因导致的资源回滚删除 </td>
         <td> 尝试重新创建，如仍无法成功请咨询客户</td>
     </tr>
@@ -95,6 +95,16 @@
 ## 事件通知详情
 
 云事件服务提供事件订阅功能，可指定事件和资源订阅并设置事件目的地，在短信和邮件等通知途径中，事件详情会以以下形式发送。
+* [实例创建失败](event-overview#SystemFailure.Delete)
+* [系统异常实例不可用](event-overview#SystemFailure.Fault)
+* [系统异常实例迁移](event-overview#SystemFailure.Migrate)
+* [实例停止（资源到期）](event-overview#InstanceExpiration.Stop)
+* [实例删除（资源到期）](event-overview#InstanceExpiration.Delete)
+* [实例停止（资源欠费）](event-overview#AccountArrearage.Stop)
+* [实例删除（资源欠费）](event-overview#AccountArrearage.Delete)
+* [实例状态变更](event-overview#StateChange)
+
+<div id="SystemFailure.Delete"></div>
 
 ### 实例创建失败
 * 事件代码：SystemFailure.Delete
@@ -115,6 +125,7 @@
 "instanceId":"i-ai0****net"
 }
 ```
+<div id="SystemFailure.Fault"></div>
 
 ### 系统异常实例不可用
 * 事件代码：SystemFailure.Fault
@@ -126,6 +137,7 @@
 "instanceId": "i-qj7****e7m"
 }
 ```
+<div id="SystemFailure.Migrate"></div>
 
 ### 系统异常实例迁移
 * 事件代码：SystemFailure.Migrate
@@ -146,6 +158,8 @@
 "instanceId": "i-bc4****9oh"
 }
 ```
+<div id="InstanceExpiration.Stop"></div>
+
 ### 实例停止（资源到期）
 * 事件代码：InstanceExpiration.Stop
 * 事件通知说明：此事件会在开始停止和停止完成后发送两条通知，事件详情如下：
@@ -165,6 +179,8 @@
 "instanceId": "i-l16****r0v"
 }
 ```
+<div id="InstanceExpiration.Delete"></div>
+
 ### 实例删除（资源到期）
 * 事件代码：InstanceExpiration.Delete
 * 事件通知说明：此事件会在开始删和删除完成后发送两条通知，事件详情如下：
@@ -184,6 +200,8 @@
 "instanceId": "i-l16****r0v"
 }
 ```
+<div id="AccountArrearage.Stop"></div>
+
 ### 实例停止（资源欠费）
 * 事件代码：AccountArrearage.Stop
 * 事件通知说明：此事件会在开始停止和停止完成后发送两条通知，事件详情如下：
@@ -203,6 +221,8 @@
 "instanceId": "i-l16****r0v"
 }
 ```
+<div id="AccountArrearage.Delete"></div>
+
 ### 实例删除（资源欠费）
 * 事件代码：AccountArrearage.Delete
 * 事件通知说明：此事件会在开始删除和删除完成后发送两条通知，事件详情如下：
@@ -222,9 +242,12 @@
 "instanceId": "i-l16****r0v"
 }
 ```
+<div id="StateChange"></div>
+
 ### 实例状态变更
 * 事件代码：StateChange
-* 事件通知说明：此事件会在每有状态变化时发送一条通知，通知中包含之前状态和当前状态，事件详情如下：
+* 事件通知说明：此事件会在每有状态变化时发送一条通知，通知中包含之前状态和当前状态，事件详情如下：<br>
+
 例：实例创建成功
 ```
 {
@@ -244,23 +267,48 @@
 "instanceLastState": "pending"
 }
 ```
-<div id="user-content-1"></div>
+例：实例创建失败
+```
+{
+"eventAction":"StateChange",
+"eventTime":"2021-02-26 19:55:18",
+"instanceCurrentState":"pending",
+"instanceId":"i-mob****hpa",
+"instanceLastState":""
+}
+```
+```
+{
+"eventAction": "StateChange",
+"eventTime": "2021-02-26 19:56:28",
+"instanceCurrentState": "error",
+"instanceId": "i-mob****hpa",
+"instanceLastState": "pending"
+}
+```
+例：实例删除成功
+```
+{
+"eventAction": "StateChange",
+"eventTime": "2021-03-19 18:42:14",
+"instanceCurrentState": "deleting",
+"instanceId": "i-5kh****v3b",
+"instanceLastState": "stopped"
+}
+```
+```
+{
+"eventAction": "StateChange",
+"eventTime": "2021-03-19 18:42:16",
+"instanceCurrentState": "terminated",
+"instanceId": "i-5kh****v3b",
+"instanceLastState": "deleting"
+}
+```
 
-## 监控插件安装说明
 
-云主机监控数据的采集和上报依赖于官方镜像系统组件'JCS-Agent'中的'MonitorPlugin'插件，官方镜像在2019年5月-7月期间进行升级默认安装了升级工具'ifrit'以实现JCS-Agent的自动升级。<br>
 
-如您当前实例中未安装JCS-Agent或已安装但版本过低不具备自动升级能力，可在确保已卸载早期系统组件cloud-init和QGA的前提下，直接安装ifrit，安装完成10分钟内，JCS-Agent会被自动安装/更新为最新版本。<br>
 
-* cloud-init和QGA卸载方法以及Ifrit安装方法详见：[官方镜像系统组件-JCS-Agent](https://docs.jdcloud.com/cn/virtual-machines/default-agent-in-public-image#user-content-1)
-* JCS-Agent版本查看方式：
-  * Linux：
-  `
-   ps -ef|grep MonitorPlugin
-  `
-  * Windows：
-  `
-  wmic process where caption="MonitorPlugin.exe" get caption,commandline /value
   `
  
   

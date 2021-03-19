@@ -6,7 +6,7 @@
 <table>
 	<thead>
     <tr>
-		    <th>事件类型</th>
+	<th>事件类型</th>
       	<th>事件名称</th>
       	<th>事件代码</th>
         <th>事件描述</th>
@@ -48,13 +48,13 @@
     </tr>
     <tr>
         <td> 实例停止（资源欠费）</td>
-        <td>	InstanceUnbalanced.Stop</td>
+        <td> AccountArrearage.Stop</td>
         <td> 按配置计费实例欠费后停服 </td>
         <td> 如继续使用请充值后重新启动；如不再使用请确保重要数据已备份，随后操作删除或等待系统7日后自动删除。</td>
     </tr>
     <tr>
         <td> 实例删除（资源欠费）</td>
-        <td> InstanceUnbalanced.Delete</td>
+        <td> AccountArrearage.Delete</td>
         <td> 按配置计费实例欠费7天后删除 </td>
         <td>  </td>
     </tr> 
@@ -98,9 +98,152 @@
 
 ### 实例创建失败
 * 事件代码：SystemFailure.Delete
-* 事件通知说明：
+* 事件通知说明：此事件会在创建失败开始删除和删除成功时刻发送两条通知（由于删除会导致资源状态变更，因此同时会触发状态变更事件，详见下方StateChange），事件详情如下：
+```
+{
+"eventAction":"SystemFailure.Delete",
+"eventState":"Executing",
+"eventTime":"2021-02-25 20:13:35",
+"instanceId":"i-ai0****net"
+}
+```
+```
+{
+"eventAction":"SystemFailure.Delete",
+"eventState":"Executed",
+"eventTime":"2021-02-25 20:13:36",
+"instanceId":"i-ai0****net"
+}
+```
 
+### 系统异常实例不可用
+* 事件代码：SystemFailure.Fault
+* 事件通知说明：此事件会在确认实例不可用后发送一条通知，事件详情如下：
+```
+{
+"eventAction": "SystemFailure.Fault",
+"eventTime": "2021-02-25 09:51:27",
+"instanceId": "i-qj7****e7m"
+}
+```
 
+### 系统异常实例迁移
+* 事件代码：SystemFailure.Migrate
+* 事件通知说明：此事件会在开始迁移和迁移完成后发送两条通知，事件详情如下：
+```
+{
+"eventAction": "SystemFailure.Migrate",
+"eventState":"Executing",
+"eventTime": "2021-02-25 06:44:06",
+"instanceId": "i-bc4****9oh"
+}
+```
+```
+{
+"eventAction": "SystemFailure.Migrate",
+"eventState":"Executed",
+"eventTime": "2021-02-25 06:44:26",
+"instanceId": "i-bc4****9oh"
+}
+```
+### 实例停止（资源到期）
+* 事件代码：InstanceExpiration.Stop
+* 事件通知说明：此事件会在开始停止和停止完成后发送两条通知，事件详情如下：
+```
+{
+"eventAction": "InstanceExpiration.Stop",
+"eventState": "Executing",
+"eventTime": "2021-02-25 11:00:14",
+"instanceId": "i-l16****r0v"
+}
+```
+```
+{
+"eventAction": "InstanceExpiration.Stop",
+"eventState": "Executed",
+"eventTime": "2021-02-25 11:00:20",
+"instanceId": "i-l16****r0v"
+}
+```
+### 实例删除（资源到期）
+* 事件代码：InstanceExpiration.Delete
+* 事件通知说明：此事件会在开始删和删除完成后发送两条通知，事件详情如下：
+```
+{
+"eventAction": "InstanceExpiration.Delete",
+"eventState": "Executing",
+"eventTime": "2021-02-25 11:00:14",
+"instanceId": "i-l16****r0v"
+}
+```
+```
+{
+"eventAction": "InstanceExpiration.Delete",
+"eventState": "Executed",
+"eventTime": "2021-02-25 11:00:20",
+"instanceId": "i-l16****r0v"
+}
+```
+### 实例停止（资源欠费）
+* 事件代码：AccountArrearage.Stop
+* 事件通知说明：此事件会在开始停止和停止完成后发送两条通知，事件详情如下：
+```
+{
+"eventAction": "AccountArrearage.Stop",
+"eventState": "Executing",
+"eventTime": "2021-02-25 11:00:14",
+"instanceId": "i-l16****r0v"
+}
+```
+```
+{
+"eventAction": "AccountArrearage.Stop",
+"eventState": "Executed",
+"eventTime": "2021-02-25 11:00:20",
+"instanceId": "i-l16****r0v"
+}
+```
+### 实例删除（资源欠费）
+* 事件代码：AccountArrearage.Delete
+* 事件通知说明：此事件会在开始删除和删除完成后发送两条通知，事件详情如下：
+```
+{
+"eventAction": "AccountArrearage.Delete",
+"eventState": "Executing",
+"eventTime": "2021-02-25 11:00:14",
+"instanceId": "i-l16****r0v"
+}
+```
+```
+{
+"eventAction": "AccountArrearage.Delete",
+"eventState": "Executed",
+"eventTime": "2021-02-25 11:00:20",
+"instanceId": "i-l16****r0v"
+}
+```
+### 实例状态变更
+* 事件代码：StateChange
+* 事件通知说明：此事件会在每有状态变化时发送一条通知，通知中包含之前状态和当前状态，事件详情如下：
+例：实例创建成功
+```
+{
+"eventAction": "StateChange",
+"eventTime": "2021-02-25 11:00:30",
+"instanceCurrentState": "pending",
+"instanceId": "i-x0r****q2b",
+"instanceLastState": ""
+}
+```
+```
+{
+"eventAction": "StateChange",
+"eventTime": "2021-02-25 11:00:52",
+"instanceCurrentState": "running",
+"instanceId": "i-x0r****q2b",
+"instanceLastState": "pending"
+}
+```
 <div id="user-content-1"></div>
 
 ## 监控插件安装说明

@@ -18,57 +18,57 @@
         <td rowspan="3">异常事件</td>
         <td> 实例创建失败</td>
         <td> SystemFailure.Delete</td>
-        <td> 实例创建请求成功后，由于系统原因导致的资源回滚删除 </td>
-        <td> 尝试重新创建，如仍无法成功请咨询客户</td>
+        <td> 实例创建请求成功后，由于系统原因导致的资源回滚删除。 </td>
+        <td> 尝试重新创建，如仍无法成功请咨询客服。</td>
     </tr>
     <tr>
         <td> 系统异常实例不可用</td>
         <td> SystemFailure.Fault</td>
-        <td> 物理机故障，且实例规格不支持热迁移（带本地数据盘的规格，如存储优化型，GPU型），导致实例处于不可用状态 </td>
-        <td> 联系客服，确认本地数据可以清除后又后台操作迁移</td>
+        <td> 物理机故障，且实例规格不支持热迁移（带本地数据盘的规格，如存储优化型，GPU型），导致实例处于不可用状态。 </td>
+        <td> 联系客服，确认本地数据可以清除后由后台操作迁移。</td>
     </tr>
     <tr>
         <td> 系统异常实例迁移</td>
         <td> SystemFailure.Migrate</td>
-        <td> 除用户无感热迁移外其他的迁移操作，如物理机严重故障已导致实例不可用或不支持热迁移的规格在客户确认后进行关机迁移 </td>
-        <td> 关注业务影响</td>
+        <td> 除用户无感热迁移外其他的迁移操作，如物理机严重故障已导致实例不可用或不支持热迁移的规格在客户确认后进行关机迁移。 </td>
+        <td> 关注业务影响。</td>
     </tr>
     <tr>
         <td rowspan="4">欠费/到期</td>
         <td> 实例停止（资源到期）</td>
         <td>InstanceExpiration.Stop</td>
-        <td> 包年包月计费实例到期后停服 </td>
+        <td> 包年包月计费实例到期后停服。 </td>
         <td> 如继续使用请续费后重新启动；如不再使用请确保重要数据已备份，随后操作删除或等待系统7日后自动删除。</td>
     </tr>
     <tr>
         <td> 实例删除（资源到期）</td>
         <td> InstanceExpiration.Delete</td>
-        <td> 包年包月计费实例到期7天后删除 </td>
+        <td> 包年包月计费实例到期7天后删除。 </td>
         <td>  </td>
     </tr>
     <tr>
         <td> 实例停止（资源欠费）</td>
         <td> AccountArrearage.Stop</td>
-        <td> 按配置计费实例欠费后停服 </td>
+        <td> 按配置计费实例欠费后停服。 </td>
         <td> 如继续使用请充值后重新启动；如不再使用请确保重要数据已备份，随后操作删除或等待系统7日后自动删除。</td>
     </tr>
     <tr>
         <td> 实例删除（资源欠费）</td>
         <td> AccountArrearage.Delete</td>
-        <td> 按配置计费实例欠费7天后删除 </td>
+        <td> 按配置计费实例欠费7天后删除。 </td>
         <td>  </td>
     </tr> 
     <tr>
         <td> 状态变更</td>
         <td> 实例状态变更</td>
         <td> StateChange </td>
-        <td> 用户操作或系统行为导致的实例任何状态变更（目前仅支持创建和删除两类操作导致的状态变更） </td>
-        <td> 关注状态变更是否符合预期 </td>
+        <td> 用户操作或系统行为导致的实例状态变更（目前仅支持创建和删除两类操作导致的状态变更）。 </td>
+        <td> 关注状态变更是否符合预期。 </td>
     </tr>        
 </table> 
  
 ## 事件格式
-云主机事件是基于 [云事件](https://www.jdcloud.com/cn/products/cloud-events) 产品提供的服务。事件格式规范示例如下，其中，"detail"为事件详情，不同事件的信息项不尽相同，具体内容可参考下方的 事件通知详情。
+云主机事件是基于 [云事件](https://www.jdcloud.com/cn/products/cloud-events) 产品提供的服务。事件格式规范示例如下，其中，"detail"为事件详情，不同事件的信息项不尽相同，具体内容可参考下方的 [事件通知详情](event-overview#event-details)。
 
 *（以实例创建成功从pending状态变为running状态为例）*
 ```
@@ -92,6 +92,8 @@
 "version":""	
 }
 ```
+<div id="event-details"></div>
+
 ## 事件通知详情
 
 云事件服务提供事件订阅功能，可指定事件和资源订阅并设置事件目的地，在短信和邮件等通知途径中，事件详情会以以下形式发送。
@@ -121,7 +123,7 @@
 {
 "eventAction":"SystemFailure.Delete",
 "eventState":"Executed",
-"eventTime":"2021-02-25 20:13:36",
+"eventTime":"2021-02-25 20:13:39",
 "instanceId":"i-ai0****net"
 }
 ```
@@ -129,7 +131,7 @@
 
 ### 系统异常实例不可用
 * 事件代码：SystemFailure.Fault
-* 事件通知说明：此事件会在确认实例不可用后发送一条通知，事件详情如下：
+* 事件通知说明：此事件会在物理机故障，确认实例不可用后发送一条通知，事件详情如下：
 ```
 {
 "eventAction": "SystemFailure.Fault",
@@ -280,7 +282,7 @@
 ```
 {
 "eventAction": "StateChange",
-"eventTime": "2021-02-26 19:56:28",
+"eventTime": "2021-02-26 19:55:39",
 "instanceCurrentState": "error",
 "instanceId": "i-mob****hpa",
 "instanceLastState": "pending"

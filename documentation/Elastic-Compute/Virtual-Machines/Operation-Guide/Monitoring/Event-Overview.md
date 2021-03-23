@@ -22,16 +22,16 @@
         <td> 尝试重新创建，如仍无法成功请咨询客服。</td>
     </tr>
     <tr>
+        <td> 系统异常实例迁移</td>
+        <td> SystemFailure.Migrate</td>
+        <td> 物理机故障导致实例不可用后进行的关机迁移。 </td>
+        <td> 关注业务影响。</td>
+    </tr>   
+   <tr>
         <td> 系统异常实例不可用</td>
         <td> SystemFailure.Fault</td>
         <td> 物理机故障，且实例规格不支持热迁移（带本地数据盘的规格，如存储优化型，GPU型），导致实例处于不可用状态。 </td>
         <td> 联系客服，确认本地数据可以清除后由后台操作迁移。</td>
-    </tr>
-    <tr>
-        <td> 系统异常实例迁移</td>
-        <td> SystemFailure.Migrate</td>
-        <td> 除用户无感热迁移外其他的迁移操作，如物理机严重故障已导致实例不可用或不支持热迁移的规格在客户确认后进行关机迁移。 </td>
-        <td> 关注业务影响。</td>
     </tr>
     <tr>
         <td rowspan="4">欠费/到期</td>
@@ -98,8 +98,8 @@
 
 云事件服务提供事件订阅功能，可指定事件和资源订阅并设置事件目的地，在短信和邮件等通知途径中，事件详情会以以下形式发送。
 * [实例创建失败](event-overview#SystemFailure.Delete)
-* [系统异常实例不可用](event-overview#SystemFailure.Fault)
 * [系统异常实例迁移](event-overview#SystemFailure.Migrate)
+* [系统异常实例不可用](event-overview#SystemFailure.Fault)
 * [实例停止（资源到期）](event-overview#InstanceExpiration.Stop)
 * [实例删除（资源到期）](event-overview#InstanceExpiration.Delete)
 * [实例停止（资源欠费）](event-overview#AccountArrearage.Stop)
@@ -127,18 +127,7 @@
 "instanceId":"i-ai0****net"
 }
 ```
-<div id="SystemFailure.Fault"></div>
 
-### 系统异常实例不可用
-* 事件代码：SystemFailure.Fault
-* 事件通知说明：此事件会在物理机故障，确认实例不可用后发送一条通知，事件详情如下：
-```
-{
-"eventAction": "SystemFailure.Fault",
-"eventTime": "2021-02-25 09:51:27",
-"instanceId": "i-qj7****e7m"
-}
-```
 <div id="SystemFailure.Migrate"></div>
 
 ### 系统异常实例迁移
@@ -160,6 +149,19 @@
 "instanceId": "i-bc4****9oh"
 }
 ```
+<div id="SystemFailure.Fault"></div>
+
+### 系统异常实例不可用
+* 事件代码：SystemFailure.Fault
+* 事件通知说明：此事件会在物理机故障，确认实例不可用后发送一条通知，事件详情如下：
+```
+{
+"eventAction": "SystemFailure.Fault",
+"eventTime": "2021-02-25 09:51:27",
+"instanceId": "i-qj7****e7m"
+}
+```
+
 <div id="InstanceExpiration.Stop"></div>
 
 ### 实例停止（资源到期）

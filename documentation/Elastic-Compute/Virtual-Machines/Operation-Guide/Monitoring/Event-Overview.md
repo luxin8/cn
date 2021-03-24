@@ -320,7 +320,10 @@
   *  订阅对象：如需订阅“实例创建失败”事件，请务必选择订阅“全部对象”；其他事件可选择订阅“部分对象”指定资源id订阅
 * 在“事件目的地”中，选择短信或邮件方式，并添加联系人或联系组
 ![](../../../../../image/vm/event.png)
-
+   
+    订阅提示：
+    * [消息管理控制台](https://message-console.jdcloud.com/message/message-settings) 提供针对全部资源由于欠费或到期导致的停服和释放的通知，如同时订阅云主机事件中的“欠费/到期”事件，会收到两类通知，请视情况选择性订阅；
+    
 ## 相关参考
 
 [云事件服务](https://docs.jdcloud.com/cn/cloudevents/product-overview)
